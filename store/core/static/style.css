@@ -1,0 +1,11 @@
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('https://wallpaperaccess.com/full/922681.jpg');
+  background-color: aquamarine;
+  background-size: cover;
+  background-position: center center;
+}
