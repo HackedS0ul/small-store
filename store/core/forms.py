@@ -7,7 +7,7 @@ IN_STORE = (
     ("NO", "No"),
 )
 class BookForm(forms.ModelForm):
-    isbn_number = forms.CharField(label="Barcode", required=False)
+    isbn_number = forms.CharField(label="Barcode")
     name = forms.CharField(label="Book name")
     description = forms.CharField(label="Short Description", max_length=500)
     author= forms.CharField(label="Author")
@@ -24,6 +24,8 @@ class BookForm(forms.ModelForm):
             'pub_date',
         ]
 
-        def clean_register(self):
-            if 'test' not in author:
-                return forms.ValidationError("Please try again")
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        if 'test' in name:
+            raise forms.ValidationError(_("Book name is not unique"))
+        return name

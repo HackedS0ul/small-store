@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView, FormView
 from .models import Book
+#new
+from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.models import User
 from .forms import BookForm
 
@@ -31,7 +33,7 @@ class BookDetailView(DetailView):
     model = Book
     template_name = "details.html"
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(PermissionRequiredMixin,UpdateView):
     model = Book
     template_name = 'update.html'
     fields = [
@@ -43,12 +45,16 @@ class BookUpdateView(UpdateView):
             'pub_date',
         ]
     success_url = "/"
+    permission_required = 'core.update'
 
-class BookDeleteView(DeleteView):
+
+# if user.is_staff (is_active, is_authenticated)
+class BookDeleteView(PermissionRequiredMixin, DeleteView):
     model = Book
     template_name = 'delete.html'
     fields = ["name","isbn_number" ]
     success_url = "/"
+    permission_required = 'core.delete'
 
 
 class ProfileUpdate(UpdateView):
@@ -58,7 +64,7 @@ class ProfileUpdate(UpdateView):
         'username',
         'email',
     ]
-    success_page="/"
+    success_page= "/"
 
 
 def loginas(request):

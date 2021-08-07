@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+#Change title and header text
+admin.site.site_header = "Book Store"
+admin.site.site_title = "Welcome to my book store"
 
 urlpatterns = [
     path('', include('core.urls')),
